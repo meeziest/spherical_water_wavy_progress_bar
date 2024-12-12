@@ -35,15 +35,11 @@ class WavePainter extends CustomPainter {
         ),
     );
 
-    canvas.save();
-
     /// Draw the background wave first
     _drawSineWave(canvas, backgroundWaveColor);
 
     /// Draw the foreground wave with shifting and mirror it for more realistic waves effect
     _drawSineWave(canvas, foregroundWaveColor, mirror: true, shift: circleRadius / 2);
-
-    canvas.restore();
   }
 
   /// Draws a single sine wave inside the clipped area.
@@ -59,7 +55,7 @@ class WavePainter extends CustomPainter {
     double startY = circleRadius;
     double endY = -circleRadius;
 
-    double amplitude = 15.0;
+    double amplitude = circleRadius * 0.15;
     double angularVelocity = pi / circleRadius;
     double delta = Curves.slowMiddle.transform(progress.value / 100);
 

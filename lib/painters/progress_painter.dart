@@ -5,18 +5,15 @@ import 'package:flutter/material.dart';
 const circleProgressColor = Color(0xFFE0F7FA);
 const circleBgColor = Color(0xFF00509D);
 
-const progressTextSize = 40.0;
 const progressTextColor = Colors.white;
 
 class ProgressPainter extends CustomPainter {
   final Animation<double> progress;
   final double circleRadius;
-  final double circleStrokeWidth;
 
   ProgressPainter({
     required this.progress,
     required this.circleRadius,
-    this.circleStrokeWidth = 10.0,
   }) : super(repaint: progress);
 
   @override
@@ -32,13 +29,13 @@ class ProgressPainter extends CustomPainter {
   void _drawCircleProgress(Canvas canvas) {
     Paint circlePaint = Paint()
       ..color = circleBgColor
-      ..strokeWidth = circleStrokeWidth
+      ..strokeWidth = circleRadius * 0.077
       ..style = PaintingStyle.stroke
       ..isAntiAlias = true;
 
     Paint shadow = Paint()
       ..color = Colors.black
-      ..strokeWidth = circleStrokeWidth
+      ..strokeWidth = circleRadius * 0.077
       ..style = PaintingStyle.stroke
       ..isAntiAlias = true
       ..maskFilter = const MaskFilter.blur(BlurStyle.outer, 30);
@@ -67,9 +64,9 @@ class ProgressPainter extends CustomPainter {
   void _drawProgressText(Canvas canvas) {
     final textSpan = TextSpan(
       text: "${(progress.value).toInt()}%",
-      style: const TextStyle(
+      style: TextStyle(
         color: progressTextColor,
-        fontSize: progressTextSize,
+        fontSize: circleRadius * 0.4,
       ),
     );
 
