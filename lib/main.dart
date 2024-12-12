@@ -27,18 +27,14 @@ class _CircularWaveProgressState extends State<CircularWaveProgress> with Ticker
   late final Animation<double> _progressAnimation;
   late final AnimationController _progressController;
   late final AnimationController _waveController;
-  late final Animation<double> _waveAnimation;
 
   @override
   void initState() {
     super.initState();
-    _progressController = AnimationController(vsync: this, duration: const Duration(seconds: 4));
-    _waveController = AnimationController(vsync: this, duration: const Duration(seconds: 5));
+    _progressController = AnimationController(vsync: this, duration: const Duration(seconds: 10));
+    _waveController = AnimationController(vsync: this, duration: const Duration(milliseconds: 700));
 
-    /// to speed up the wave animation, increase tween range
-    _waveAnimation = Tween(begin: 0.0, end: 10.0).animate(_waveController);
     _progressAnimation = Tween(begin: 0.0, end: 100.0).animate(_progressController);
-
     _progressController.addListener(_progressListener);
     _waveController.repeat();
   }
@@ -98,7 +94,7 @@ class _CircularWaveProgressState extends State<CircularWaveProgress> with Ticker
               builder: (_, constraints) => Center(
                 child: SphericalWaterRippleProgressBar(
                   progress: _progressAnimation,
-                  waveAnimation: _waveAnimation,
+                  waveAnimation: _waveController,
                   sphereRadius: constraints.biggest.shortestSide / 2,
                 ),
               ),
