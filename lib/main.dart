@@ -24,7 +24,7 @@ class CircularWaveProgress extends StatefulWidget {
 }
 
 class _CircularWaveProgressState extends State<CircularWaveProgress> with TickerProviderStateMixin {
-  late final ValueNotifier<double> _progress;
+  late final Animation<double> _progressAnimation;
   late final AnimationController _progressController;
   late final AnimationController _waveController;
   late final Animation<double> _waveAnimation;
@@ -32,27 +32,26 @@ class _CircularWaveProgressState extends State<CircularWaveProgress> with Ticker
   @override
   void initState() {
     super.initState();
-    _progressController = AnimationController(vsync: this, duration: const Duration(seconds: 5));
+    _progressController = AnimationController(vsync: this, duration: const Duration(seconds: 4));
     _waveController = AnimationController(vsync: this, duration: const Duration(seconds: 5));
-    _progress = ValueNotifier<double>(_progressController.value);
 
     /// to speed up the wave animation, increase tween range
-    _waveAnimation = Tween(begin: 0.0, end: 5.0).animate(_waveController);
+    _waveAnimation = Tween(begin: 0.0, end: 10.0).animate(_waveController);
+    _progressAnimation = Tween(begin: 0.0, end: 100.0).animate(_progressController);
+
     _progressController.addListener(_progressListener);
     _waveController.repeat();
+  }
+
+  void _progressListener() {
+    if (_progressController.isCompleted) setState(() {});
   }
 
   @override
   void dispose() {
     _progressController.dispose();
     _waveController.dispose();
-    _progress.dispose();
     super.dispose();
-  }
-
-  void _progressListener() {
-    _progress.value = _progressController.value;
-    if (_progress.value == 1) setState(() {});
   }
 
   void _runAnimation() {
@@ -100,7 +99,7 @@ class _CircularWaveProgressState extends State<CircularWaveProgress> with Ticker
                 dimension: 200,
                 child: LayoutBuilder(
                   builder: (_, constraints) => SphericalWaterRippleProgressBar(
-                    progress: _progress,
+                    progress: _progressAnimation,
                     waveAnimation: _waveAnimation,
                     sphereRadius: constraints.biggest.shortestSide / 2,
                   ),
@@ -123,13 +122,13 @@ class _CircularWaveProgressState extends State<CircularWaveProgress> with Ticker
 class SphericalWaterRippleProgressBar extends StatelessWidget {
   const SphericalWaterRippleProgressBar({
     super.key,
-    required ValueNotifier<double> progress,
+    required Animation<double> progress,
     required Animation<double> waveAnimation,
     required this.sphereRadius,
   })  : _progress = progress,
         _waveAnimation = waveAnimation;
 
-  final ValueNotifier<double> _progress;
+  final Animation<double> _progress;
   final Animation<double> _waveAnimation;
   final double sphereRadius;
 

@@ -9,7 +9,7 @@ const progressTextSize = 40.0;
 const progressTextColor = Colors.white;
 
 class ProgressPainter extends CustomPainter {
-  final ValueNotifier<double> progress;
+  final Animation<double> progress;
   final double circleRadius;
   final double circleStrokeWidth;
 
@@ -57,7 +57,7 @@ class ProgressPainter extends CustomPainter {
     canvas.drawArc(
       Rect.fromCircle(center: Offset.zero, radius: circleRadius),
       -0.5 * pi,
-      2 * pi * progress.value,
+      2 * pi * (progress.value / 100),
       false,
       circlePaint,
     );
@@ -66,7 +66,7 @@ class ProgressPainter extends CustomPainter {
   /// Draws the progress text.
   void _drawProgressText(Canvas canvas) {
     final textSpan = TextSpan(
-      text: "${(progress.value * 100).toInt()}%",
+      text: "${(progress.value).toInt()}%",
       style: const TextStyle(
         color: progressTextColor,
         fontSize: progressTextSize,

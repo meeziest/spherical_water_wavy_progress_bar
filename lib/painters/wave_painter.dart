@@ -2,11 +2,11 @@ import 'dart:math';
 
 import 'package:flutter/material.dart';
 
-const foregroundWaveColor = Color( 0xFF00aaff);
-const backgroundWaveColor = Color( 0xFF0073E6);
+const foregroundWaveColor = Color(0xFF00aaff);
+const backgroundWaveColor = Color(0xFF0073E6);
 
 class WavePainter extends CustomPainter {
-  final ValueNotifier<double> progress;
+  final Animation<double> progress;
   final Animation<double> waveAnimation;
   final double circleRadius;
 
@@ -40,7 +40,7 @@ class WavePainter extends CustomPainter {
     /// Draw the background wave first
     _drawSineWave(canvas, backgroundWaveColor);
 
-    /// Draw the foreground wave with shifting and mirror it
+    /// Draw the foreground wave with shifting and mirror it for more realistic waves effect
     _drawSineWave(canvas, foregroundWaveColor, mirror: true, shift: circleRadius / 2);
 
     canvas.restore();
@@ -61,7 +61,7 @@ class WavePainter extends CustomPainter {
 
     double amplitude = 15.0;
     double angularVelocity = pi / circleRadius;
-    double delta = Curves.slowMiddle.transform(progress.value);
+    double delta = Curves.slowMiddle.transform(progress.value / 100);
 
     double offsetX = 2 * circleRadius * waveAnimation.value + shift;
     double offsetY = startY + (endY - startY - amplitude) * delta;
@@ -75,7 +75,7 @@ class WavePainter extends CustomPainter {
     Path path = Path();
 
     for (double x = startX; x <= endX; x++) {
-      /// y = A * sin(ωx + φ) wave function itself, where A is amplitude, ω is angular velocity, φ is phase shift
+      /// y = A * sin(ωx + φ) wave function itself, where A is amplitude, ω is angular velocity, φ is phase shift(x)
       double y = amplitude * sin(angularVelocity * (x + offsetX));
       if (x == startX) {
         path.moveTo(x, y + offsetY);
