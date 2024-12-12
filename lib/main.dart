@@ -94,15 +94,12 @@ class _CircularWaveProgressState extends State<CircularWaveProgress> with Ticker
       child: Column(
         children: [
           Expanded(
-            child: Center(
-              child: SizedBox.square(
-                dimension: 200,
-                child: LayoutBuilder(
-                  builder: (_, constraints) => SphericalWaterRippleProgressBar(
-                    progress: _progressAnimation,
-                    waveAnimation: _waveAnimation,
-                    sphereRadius: constraints.biggest.shortestSide / 2,
-                  ),
+            child: LayoutBuilder(
+              builder: (_, constraints) => Center(
+                child: SphericalWaterRippleProgressBar(
+                  progress: _progressAnimation,
+                  waveAnimation: _waveAnimation,
+                  sphereRadius: constraints.biggest.shortestSide / 2,
                 ),
               ),
             ),
