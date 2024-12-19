@@ -1,6 +1,6 @@
 # spherical_water_wavy_progress_bar
 
-Complex Animations in Flutter: Creating a Dynamic Circular Water-Ripple Progress Bar (https://medium.com/@dinmukhammed.yerimbetov/complex-animations-in-flutter-creating-a-dynamic-circular-water-ripple-progress-bar-c09175981f23)
+Guide to complex Animations in Flutter: Creating a Dynamic Circular Water-Ripple Progress Bar (https://medium.com/@dinmukhammed.yerimbetov/complex-animations-in-flutter-creating-a-dynamic-circular-water-ripple-progress-bar-c09175981f23)
 
 Demo:
 
